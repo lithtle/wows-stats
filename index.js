@@ -109,6 +109,10 @@ router.get('/ship', jsonParser, function(req, res) {
 						ship.name = info.name;
 						ship.img = info.images.small;
 						ship.info = info;
+						// added
+						ship.tier = info.tier;
+						ship.type = info.type;
+						// added
 						request(process.env.WOWS_API_URL + '/wows/ships/stats/?application_id=' + api_key + '&account_id=' + req.query.playerId + '&ship_id=' + req.query.shipId, function (error, response, body) {
 							if (!error && response.statusCode == 200) {
 								var json = JSON.parse(body);

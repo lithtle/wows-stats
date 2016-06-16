@@ -132,9 +132,35 @@ app.factory('api', function($http, $q) {
 				var kill = parseInt(data.destroyed);
 				var death = battles - survived;
 				var kdRatio = (kill / death).toFixed(2);
+				// added
+				var tier = parseInt(data.tier);
+				var type = (function(type) {
+					switch (type) {
+						case "Battleship":
+							return "BB";
+							break;
+						case "Cruiser":
+							return "CA/CL";
+							break;
+						case "Destroyer":
+							return "DD";
+							break;
+						case "AirCarrier":
+							return "CV";
+							break;
+						default:
+							return "unknown";
+							break;
+					}
+				})(data.type);
+				// added
 				player.ship = {
 					"name": data.name,
 					"img": data.img,
+					// added
+					"tier": tier,
+					"type": type,
+					// added
 					"winRate": winRate + "%",
 					"winRateClass": api.beautify("winRate", winRate),
 					"kdRatio": kdRatio,
@@ -152,6 +178,8 @@ app.factory('api', function($http, $q) {
 			});
 		});
 	}
+
+
 	return api;
 });
 
@@ -178,11 +206,40 @@ app.controller('TeamStatsCtrl', function ($scope, $http, api) {
 					api.fetchPlayer(player);
 				}
 			}
+			// added sort
+			if ($scope.players.length > 0) {
+				$scope.players.sort(function(a, b) {
+					// type: ascending(BB -> CA -> DD)
+					if (a.ship.type < b.ship.type) {
+						return -1;
+					}
+					if (a.ship.type > b.ship.type) {
+						return 1;
+					}
+					//tier: descending(10 -> 9 -> ... -> 1)
+					if (a.ship.tier < b.ship.tier) {
+						return 1;
+					}
+					if (a.ship.tier > b.ship.tier) {
+						return -1;
+					}
+					// name: ascending(a -> b -> ... -> z)
+					if (a.ship.name < b.ship.name) {
+						return -1;
+					}
+					if (a.ship.name > b.ship.name) {
+						return 1;
+					}
+					return 0;
+				});
+			}
 		}).error(function(data, status) {
 			$scope.dateTime = "";
 			$scope.inGame = false;
 		});
 	}
+
+
 
 	var timer = setInterval(function() {
 		$scope.$apply(updateArena);

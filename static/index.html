@@ -16,125 +16,170 @@
 	  	  <h1><span class="hint" ng-hide="inGame">Last game: </span>{{ data.mapDisplayName }}</h1>
 	  	  <h2>{{ data.gameLogic }}</h2>
 	  	  <div class="teams">
-	  	    <div id="friendly" class="team">
-	  	      <h3>Our Team</h3>
-	  	      <ul>
-	  	      	<li ng-repeat="(key, value) in players" ng-if="value.relation!=2">
-	  	      	  <div class="player">
-  	      		    <div class="name"><a href="http://worldofwarships.com/en/community/accounts/{{ value.uri }}/" target="_blank">{{value.name}}</a></div>
-                  <div class="ship">
-                    <div class="key">{{value.ship.name}}</div>
-                    <div class="data">
-                      <img ng-src="{{value.ship.img}}" alt="{{value.ship.name}}" />
-                    </div>
-                    <div class="value" ng-show="value.ship.err">{{ value.ship.err }}</div>
-                    <div class="data" ng-hide="value.ship.err">
-                      <span class="small">Win </span>
-                      <span class="value {{value.ship.winRateClass}}">{{value.ship.winRate}}</span>
-                      <span class="small">DPG </span>
-                      <span class="value">{{value.ship.avgDmg}}</span>
-                      <br>
-                      <span class="small">K/D </span>
-                      <span class="value">{{value.ship.kdRatio}}</span>
-                      <span class="small">Battles </span>
-                      <span class="value">{{value.ship.battles}}</span>
-                      <span class="small">EXP/G </span>
-                      <span class="value">{{value.ship.avgExp}}</span>
-                    </div>
-                  </div>
-                  <div class="overall">
-                    <div class="key">Player</div>
-                    <div class="value" ng-show="value.err">{{ value.err }}</div>
-                    <div class="data" ng-hide="value.err">
-                      <span class="small">Win </span>
-                      <span class="value {{value.winRateClass}}">{{value.winRate}}</span>
-                      <span class="small">DPG </span>
-                      <span class="value">{{value.avgDmg}}</span>
-                      <br>
-                      <span class="small">K/D </span>
-                      <span class="value">{{value.kdRatio}}</span>
-                      <span class="small">Battles </span>
-                      <span class="value">{{value.battles}}</span>
-                      <span class="small">EXP/G </span>
-                      <span class="value">{{value.avgExp}}</span>
-                    </div>
-                    <!-- Old layout
-                    <div class="data">
-                      <span class="key">Victories / Battles (Win)</span>
-                      <span class="value {{value.winRateClass}}">{{value.winRate}}</span>
-                    </div>
-                    <div class="data">
-                      <span class="key">Average Damage Caused per Battle (DPG)</span>
-                      <span class="value">{{value.avgDmg}}</span>
-                    </div>
-                    <div class="data">
-                      <span class="key">Kill / Death Ratio (K/D)</span>
-                      <span class="value">{{value.kdRatio}}</span>
-                    </div>
-                    <div class="data">
-                      <span class="key">Battles Fought (Battles)</span>
-                      <span class="value">{{value.battles}}</span>
-                    </div>
-                    <div class="data">
-                      <span class="key">Average Experience Per Battle (EXP/G)</span>
-                      <span class="value">{{value.avgExp}}</span>
-                    </div>
-                    -->
-                  </div>
-      		      </div>
-	  	      	</li>
-	  	      </ul>
+          <div id="friendly" class="team">
+            <h3>Our Team</h3>
+  	      	<div class="player">
+              <table>
+                <tr>
+                    <th>name</th>
+                    <th>tier</th>
+                    <th>type</th>
+                    <th>ship</th>
+                    <th>WinRate</th>
+                    <th>aveDMG</th>
+                    <th>K/D</th>
+                    <th>Battles</th>
+                    <th>Player WinRate</th>
+                    <th>Player AveDMG</th>
+                    <th>Player K/D</th>
+                    <th>Player Battles</th>
+                </tr>
+                <tr ng-repeat="(key, value) in players" ng-if="value.relation!=2">
+    	      		    <td class="name"><a href="http://worldofwarships.com/en/community/accounts/{{ value.uri }}/" target="_blank">{{value.name}}</a></td>
+                    <td class="ship">
+                      <div class="value">{{ value.ship.tier }}</div>
+                    </td>
+                    <td class="ship">
+                      <div class="value">{{ value.ship.type }}</div>
+                    </td>
+                    <td class="ship">
+                      <div class="key">{{value.ship.name}}</div>
+                      <div class="value" ng-show="value.ship.err">{{ value.ship.err }}</div>
+                    </td>
+                    <td>
+                      <div class="data" ng-hide="value.ship.err">
+                        <span class="value {{value.ship.winRateClass}}">{{value.ship.winRate}}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="data" ng-hide="value.ship.err">
+                        <span class="value">{{value.ship.avgDmg}}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="data" ng-hide="value.ship.err">
+                        <span class="value">{{value.ship.kdRatio}}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="data" ng-hide="value.ship.err">
+                        <span class="value">{{value.ship.battles}}</span>
+                      </div>
+                    </td>
+                    <span class="overall">
+                      <span class="value" ng-show="value.err">{{ value.err }}</span>
+                      <td>
+                        <div class="data" ng-hide="value.err">
+                          <span class="value {{value.winRateClass}}">{{value.winRate}}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="data" ng-hide="value.err">
+                          <span class="value">{{value.avgDmg}}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="data" ng-hide="value.err">
+                          <span class="value">{{value.kdRatio}}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="data" ng-hide="value.err">
+                          <span class="value">{{value.battles}}</span>
+                        </div>
+                      </td>
+                    </span>
+                    <!-- .overall -->
+  	  	      	</tr>
+  	  	      </table>
+            </div>
+            <!-- .player -->
 	  	    </div>
+          <!-- #friendly -->
 	  	    <div id="foe" class="team">
 	  	      <h3>Enemy Team</h3>
-	  	      <ul>
-	  	      	<li ng-repeat="(key, value) in players" ng-if="value.relation==2">
-  	      		  <div class="player">
-                  <div class="name"><a href="http://worldofwarships.com/en/community/accounts/{{ value.uri }}/" target="_blank">{{value.name}}</a></div>
-                  <div class="ship">
+      		  <div class="player">
+              <table>
+                <tr>
+                  <th>name</th>
+                  <th>tier</th>
+                  <th>type</th>
+                  <th>ship</th>
+                  <th>WinRate</th>
+                  <th>aveDMG</th>
+                  <th>K/D</th>
+                  <th>Battles</th>
+                  <th>Player WinRate</th>
+                  <th>Player AveDMG</th>
+                  <th>Player K/D</th>
+                  <th>Player Battles</th>
+                </tr>
+                <tr ng-repeat="(key, value) in players" ng-if="value.relation==2">
+                  <td class="name"><a href="http://worldofwarships.com/en/community/accounts/{{ value.uri }}/" target="_blank">{{value.name}}</a></td>
+                  <td class="ship">
+                    <div class="value">{{ value.ship.tier }}</div>
+                  </td>
+                  <td class="ship">
+                    <div class="value">{{ value.ship.type }}</div>
+                  </td>
+                  <td class="ship">
                     <div class="key">{{value.ship.name}}</div>
-                    <div class="data">
-                      <img ng-src="{{value.ship.img}}" alt="{{value.ship.name}}" />
-                    </div>
                     <div class="value" ng-show="value.ship.err">{{ value.ship.err }}</div>
+                  </td>
+                  <td>
+                      <div class="data" ng-hide="value.ship.err">
+                        <span class="value {{value.ship.winRateClass}}">{{value.ship.winRate}}</span>
+                      </div>
+                  </td>
+                  <td>
                     <div class="data" ng-hide="value.ship.err">
-                      <span class="small">Win </span>
-                      <span class="value {{value.ship.winRateClass}}">{{value.ship.winRate}}</span>
-                      <span class="small">DPG </span>
-                      <span class="value">{{value.ship.avgDmg}}</span>
-                      <br>
-                      <span class="small">K/D </span>
-                      <span class="value">{{value.ship.kdRatio}}</span>
-                      <span class="small">Battles </span>
-                      <span class="value">{{value.ship.battles}}</span>
-                      <span class="small">EXP/G </span>
-                      <span class="value">{{value.ship.avgExp}}</span>
+                        <span class="value">{{value.ship.avgDmg}}</span>
                     </div>
-                  </div>
-                  <div class="overall">
-                    <div class="key">Player</div>
-                    <div class="value" ng-show="value.err">{{ value.err }}</div>
-                    <div class="data" ng-hide="value.err">
-                      <span class="small">Win </span>
-                      <span class="value {{value.winRateClass}}">{{value.winRate}}</span>
-                      <span class="small">DPG </span>
-                      <span class="value">{{value.avgDmg}}</span>
-                      <br>
-                      <span class="small">K/D </span>
-                      <span class="value">{{value.kdRatio}}</span>
-                      <span class="small">Battles </span>
-                      <span class="value">{{value.battles}}</span>
-                      <span class="small">EXP/G </span>
-                      <span class="value">{{value.avgExp}}</span>
+                  </td>
+                  <td>
+                    <div class="data" ng-hide="value.ship.err">
+                        <span class="value">{{value.ship.kdRatio}}</span>
                     </div>
-                  </div>
-	  	      	</li>
-	  	      </ul>
-	  	    </div>
-	  	  </div>
+                  </td>
+                  <td>
+                    <div class="data" ng-hide="value.ship.err">
+                        <span class="value">{{value.ship.battles}}</span>
+                    </div>
+                  </td>
+                  <span class="overall">
+                    <span class="value" ng-show="value.err">{{ value.err }}</span>
+                    <td>
+                        <div class="data" ng-hide="value.err">
+                          <span class="value {{value.winRateClass}}">{{value.winRate}}</span>
+                        </div>
+                    </td>
+                    <td>
+                      <div class="data" ng-hide="value.err">
+                        <span class="value">{{value.avgDmg}}</span>
+                      </div>
+                    </td>
+                     <td>
+                      <div class="data" ng-hide="value.err">
+                       <span class="value">{{value.kdRatio}}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="data" ng-hide="value.err">
+                        <span class="value">{{value.battles}}</span>
+                      </div>
+                    </td>
+                  </span>
+                  <!-- overall -->
+  	  	      	</tr>
+  	  	      </table>
+	  	      </div>
+            <!-- .player -->
+  	      </div>
+          <!-- #foe -->
 	  	</div>
-  	</div>
-  	<div class="footer">Powered by <a href="https://github.com/tianweiliu/wows-stats">wows-stats</a></div>
+    </div>
+    <!-- .content -->
+    <div class="footer">Powered by <a href="https://github.com/tianweiliu/wows-stats">wows-stats</a></div>
   </div>
 </body>
 </html>

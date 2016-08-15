@@ -1,5 +1,19 @@
 const MAX_RETRY = 5;
 
+// ship sign
+const CV = "CV";
+const BB = "BB";
+const CA = "CA/CL";
+const DD = "DD";
+
+// ship type conversion
+var SHIP_TYPE = {
+	"Battleship" : BB,
+	"Cruiser": CA,
+	"Destroyer": DD,
+	"AirCarrier": CV
+};
+
 var app = angular.module('wows-stats', []);
 
 app.factory('api', function($http, $q) {
@@ -134,25 +148,7 @@ app.factory('api', function($http, $q) {
 				var kdRatio = (kill / death).toFixed(2);
 				// added
 				var tier = parseInt(data.tier);
-				var type = (function(type) {
-					switch (type) {
-						case "Battleship":
-							return "BB";
-							break;
-						case "Cruiser":
-							return "CA/CL";
-							break;
-						case "Destroyer":
-							return "DD";
-							break;
-						case "AirCarrier":
-							return "CV";
-							break;
-						default:
-							return "unknown";
-							break;
-					}
-				})(data.type);
+				var type = SHIP_TYPE[data.type];
 				// added
 				player.ship = {
 					"name": data.name,
@@ -178,7 +174,6 @@ app.factory('api', function($http, $q) {
 			});
 		});
 	}
-
 
 	return api;
 });
@@ -209,6 +204,12 @@ app.controller('TeamStatsCtrl', function ($scope, $http, api) {
 			// added sort
 			if ($scope.players.length > 0) {
 				$scope.players.sort(function(a, b) {
+					if (a.ship.type == CV && b.ship.type != CV) {
+						return -1;
+					}
+					if (a.ship.type != CV && b.ship.type == CV) {
+						return 1;	
+					}
 					// type: ascending(BB -> CA -> DD)
 					if (a.ship.type < b.ship.type) {
 						return -1;
@@ -239,11 +240,9 @@ app.controller('TeamStatsCtrl', function ($scope, $http, api) {
 		});
 	}
 
-
-
 	var timer = setInterval(function() {
 		$scope.$apply(updateArena);
-	}, 1000);
+	}, 5000);
 
 	updateArena();
 });
